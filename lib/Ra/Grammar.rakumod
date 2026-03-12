@@ -1,20 +1,21 @@
-unit grammar Rubyish::Grammar;
+unit grammar Ra::Grammar;
 
 use HLL::Expression::Grammar;
 also does HLL::Expression::Grammar;
 
-use       Rubyish::Operators;
-also does Rubyish::Operators::Grammar;
+use       Ra::Operators;
+also does Ra::Operators::Grammar;
 
-use       Rubyish::Values;
-also does Rubyish::Values::Grammar;
+use       Ra::Values;
+also does Ra::Values::Grammar;
 
-use Rubyish::HLL::Block;
+use Ra::HLL::Block;
+use Ra::Defs :RaBuiltIn;
 
 token TOP {
     :my $*IN_TEMPLATE = False;           # true, if in a template
     :my $*IN_PARENS   = False;           # true, if in a parenthesised list
-    :my $*CUR-BLOCK = Rubyish::HLL::Block.new;
+    :my $*CUR-BLOCK = Ra::HLL::Block.new;
     :my %*SYM;                           # symbols in current scope
     ^ ~ $ <stmtlist>
         || <.panic('Syntax error')>
@@ -53,6 +54,24 @@ token var {
        || <.panic("unknown variable or method: $<var>")>
     ]
 }
+
+multi sub callable(RaBuiltIn) {
+    True;
+}
+
+multi sub callable($) { False }
+
+token operation  {<ident>[\!|\?]?}
+token term:sym<call> {
+        <!keyword>
+       <operation> [# '(' ~ ')' <call-args=.paren-args>? <code-block>?
+            #|
+            :s <?{callable(~$<operation>)}> <call-args>?
+                    ]
+}
+token call-args {:s [ <arg> ] +% ',' }
+proto token arg {*}
+token arg:sym<expr>  {:s <EXPR> <!before ['=>'|':']> }
 
 token term:sym<infix=> {<var> <OPER=infix> '=' <EXPR> }
 token term:sym<var> { <var> }

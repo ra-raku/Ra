@@ -1,4 +1,4 @@
-unit module Rubyish::Values;
+unit module Ra::Values;
 
 role Grammar {
     proto token value { * }
@@ -36,9 +36,9 @@ role Grammar {
 
     token string:sym<"> {<sym> ~ <sym> <segment>*}
     proto token segment {*}
-    token segment:sym<expr> { '#{' ~ '}' <stmtlist> }
+    token segment:sym<expr> { '{' ~ '}' <stmtlist> }
     token segment:sym<esc>  { '\\' <escape>? }
-    token segment:sym<reg>  {[<!before ['#{' | '"' | \n | '\\']>.]+}
+    token segment:sym<reg>  {[<!before ['{' | '"' | \n | '\\']>.]+}
 
     proto token escape {*}
     token escape:sym<char>      { <[abtnvfres"\\\n]> }
@@ -50,7 +50,7 @@ role Grammar {
 
 role Actions {
     use experimental :rakuast;
-    use Rubyish::Util :&compile;
+    use Ra::Util :&compile;
 
     multi sub literal(Int:D $v) { RakuAST::IntLiteral.new($v) }
     multi sub literal(Rat:D $v) { RakuAST::RatLiteral.new($v) }

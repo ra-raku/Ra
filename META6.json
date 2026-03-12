@@ -8,23 +8,24 @@
   "depends": [
       "Method::Also"
   ],
-  "description": "Simple example Rubyish language implementation",
+  "description": "Simple example Ra language implementation",
   "license": "Artistic-2.0",
-    "name": "Rubyish",
+    "name": "Ra",
   "raku": "6.d",
   "provides": {
-      "Rubyish": "lib/Rubyish.rakumod",
-      "Rubyish::Grammar": "lib/Rubyish/Grammar.rakumod",
-      "Rubyish::Actions": "lib/Rubyish/Actions.rakumod",
-      "Rubyish::Operators": "lib/Rubyish/Operators.rakumod",
-      "Rubyish::Values": "lib/Rubyish/Values.rakumod",
-      "Rubyish::HLL::Block": "lib/Rubyish/HLL/Block.rakumod",
-      "Rubyish::HLL::Symbol": "lib/Rubyish/HLL/Symbol.rakumod",
-      "Rubyish::Util": "lib/Rubyish/Util.rakumod"
+      "Ra": "lib/Ra.rakumod",
+      "Ra::Defs": "lib/Ra/Defs.rakumod",
+      "Ra::Grammar": "lib/Ra/Grammar.rakumod",
+      "Ra::Actions": "lib/Ra/Actions.rakumod",
+      "Ra::Operators": "lib/Ra/Operators.rakumod",
+      "Ra::Values": "lib/Ra/Values.rakumod",
+      "Ra::HLL::Block": "lib/Ra/HLL/Block.rakumod",
+      "Ra::HLL::Symbol": "lib/Ra/HLL/Symbol.rakumod",
+      "Ra::Util": "lib/Ra/Util.rakumod"
   },
   "resources": [
   ],
-  "source-url": "git@github.com:rubyish-raku/Rubyish.git",
+  "source-url": "git@github.com:ra-raku/Ra.git",
   "tags": [
   ],
   "test-depends": [

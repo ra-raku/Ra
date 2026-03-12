@@ -1,4 +1,4 @@
-unit module Rubyish::Operators;
+unit module Ra::Operators;
 
 role Grammar {
     ## Operator precedence levels
@@ -116,7 +116,7 @@ role Grammar {
 
 role Actions {
     use experimental :rakuast;
-    use Rubyish::Util :&compile;
+    use Ra::Util :&compile;
     
     method circumfix:sym<( )>($/) {  make $<EXPR>.&compile; }
 }

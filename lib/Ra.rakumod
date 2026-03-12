@@ -1,10 +1,10 @@
-unit class Rubyish;
+unit class Ra;
 
-use Rubyish::Grammar;
-use Rubyish::Actions;
+use Ra::Grammar;
+use Ra::Actions;
 
-method grammar {Rubyish::Grammar}
-method actions {Rubyish::Actions.new}
+method grammar {Ra::Grammar}
+method actions {Ra::Actions.new}
 
 multi method compile(Str:D $code, Str:D :$rule = 'TOP') {
     .ast given $.grammar.parse($code, :$.actions, :$rule);

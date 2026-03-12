@@ -1,17 +1,18 @@
-unit class Rubyish::Actions;
+unit class Ra::Actions;
 
 use experimental :rakuast;
 
 use HLL::Expression::Grammar::Actions;
 also does HLL::Expression::Grammar::Actions;
 
-use       Rubyish::Operators;
-also does Rubyish::Operators::Actions;
+use       Ra::Operators;
+also does Ra::Operators::Actions;
 
-use       Rubyish::Values;
-also does Rubyish::Values::Actions;
+use       Ra::Values;
+also does Ra::Values::Actions;
 
-use Rubyish::Util :&compile, :&infix;
+use Ra::Util :&compile, :&infix;
+use Ra::Defs :RaBuiltIn;
 use Method::Also;
 
 method TOP($/) {
@@ -66,6 +67,29 @@ method stmt:sym<EXPR>($/) {
     make $<EXPR>.&compile;
 }
 
+method term:sym<call>($/ where $<call-args>) {
+    my $id  := ~$<operation>;
+    my $args = $<call-args>.ast;
+    given ~$<operation> {
+        when RaBuiltIn {
+            my RakuAST::Name $name .= from-identifier($_);
+            make RakuAST::Call::Name.new(:$name, :$args);
+        }
+        default {
+            ...
+        }
+    }
+}
+
+method call-args($/) {
+    my @args = @<arg>>>.ast;
+    make RakuAST::ArgList.new(|@args);
+}
+
+method arg:sym<expr>($/) {
+    make $<EXPR>.&compile;
+}
+
 method term:sym<value>($/) {
     make $<value>.ast;
 }
@@ -84,7 +108,7 @@ method term:sym<infix=>($/) {
 
 method term:sym<circumfix>($/) { make $<circumfix>.ast }
 
-method ws($/) is also<ww hs decint escale separator hexdigits xdigit before assign-op comment:sym<line> keyword comma> {}
+method ws($/) is also<ww hs decint escale separator hexdigits xdigit before assign-op comment:sym<line> keyword comma operation> {}
 
 method FALLBACK($method, $/) {
     die "Missing $method actions method"
