@@ -26,9 +26,9 @@ role Grammar {
     }
     rule comma { [','|'=>'] }
 
-    token value:sym<nil>     { <sym> }
-    token value:sym<true>    { <sym> }
-    token value:sym<false>   { <sym> }
+    token value:sym<Nil>     { <sym> }
+    token value:sym<True>    { <sym> }
+    token value:sym<False>   { <sym> }
     token value:sym<string>  { <string> }
 
     proto token string {*}
@@ -63,7 +63,7 @@ role Actions {
     method unsigned-int($/) { make $/.Int.&literal }
     method hex-int($/) { make $/.Int.&literal }
     method decimal-num($/) { make $/.Numeric.&literal }
-    method value:sym<nil>($/) {
+    method value:sym<Nil>($/) {
         make RakuAST::Type::Simple.new(
             RakuAST::Name.from-identifier("Nil")
         );
@@ -92,10 +92,10 @@ role Actions {
             :$infix,
         );
     }
-    method value:sym<true>($/) {
+    method value:sym<True>($/) {
         make RakuAST::Term::Enum.from-identifier('True');
     }
-    method value:sym<false>($/) {
+    method value:sym<False>($/) {
         make RakuAST::Term::Enum.from-identifier('False');
     }
     method value:sym<string>($/) { make $<string>.ast }

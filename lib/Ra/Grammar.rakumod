@@ -84,15 +84,7 @@ token stmt:sym<EXPR> { <EXPR> }
 
 # Reserved words.
 token keyword {
-    [ BEGIN     | class     | ensure    | nil       | new       | when
-    | END       | def       | false     | not       | super     | while
-    | alias     | defined   | for       | or        | then      | yield
-    | and       | do        | if        | redo      | true
-    | begin     | else      | in        | rescue    | undef
-    | break     | elsif     | module    | retry     | unless
-    | case      | end       | next      | return    | until
-    | eq | ne   | lt | gt   | le | ge   | cmp
-    ] <!ww>
+    [ True | False | Nil ] <!ww>
 }
 
 method panic($err) { die $err }

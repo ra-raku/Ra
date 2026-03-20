@@ -17,8 +17,8 @@ subtest "numeric expressions", {
          "-42" => -42, "2++40" => 42, "(2+3)" => 5, "2+3*5" => 17, "(2+3)*5" => 25,
          "8/2" => 4.0, "((4*3)-(3*2))" => 6, "1_234" => 1234, "4.2" => 4.2,
          "4.2+1" => 5.2, "1.23e-7" => 1.23e-7, "3 > 2" => True, "2 > 3" => False,
-         "true" => True, "false" => False, "nil" => Nil, "1;2" => 2, "2 if true" => 2,
-         "1 if false" => Empty) {
+         "True" => True, "False" => False, "Nil" => Nil, "1;2" => 2, "2 if True" => 2,
+         "1 if False" => Empty) {
          .key.&test-eval: .value;
     }
 }
@@ -27,7 +27,7 @@ subtest "quoted strings", {
     for (q<'foo'> => 'foo', q<'foo\\'bar'> => "foo'bar", q<'foo\\\\bar'> => "foo\\bar",
          q<'fo\\o'> => "fo\\o", q<"fo\\o"> => "fo\\o",
          q<"foobar"> => 'foobar', q<"{42}"> => '42', q<"foo{40+2}bar"> => 'foo42bar',
-         q<"foo{42 if true}bar"> => 'foo42bar', q<"foo{42 if false}bar"> => 'foobar',
+         q<"foo{42 if True}bar"> => 'foo42bar', q<"foo{42 if False}bar"> => 'foobar',
          q<"foo\\> ~ "\n" ~ q<bar"> => "foobar", ## todo
          q<"\\a\\b\\t\\n\\v\\f\\r\\e\\s\\"\\\\"> => "\a\b\t\n\x[b]\f\r\e \"\\", q<"\77"> => "?",
          q<"\cM"> => "\f", q<"\\x006E"> => "n", q<"\\u6e"> => "n") {
@@ -36,9 +36,9 @@ subtest "quoted strings", {
 }
 
 subtest "ternary", {
-    for ("true ? 1 : 2" => 1, "false ? 1 : 2" => 2, "true ? 1 : true ? 2 : 3" => 1,
-         "true ? 1 : false ? 2 : 3" => 1, "false ? 1 : true ? 2 : 3" => 2,
-         "(true ? 1 : false ) ? 2 : 3" => 2, "false ? 1 : false ? 2 : 3" => 3,
+    for ("True ? 1 : 2" => 1, "False ? 1 : 2" => 2, "True ? 1 : True ? 2 : 3" => 1,
+         "True ? 1 : False ? 2 : 3" => 1, "False ? 1 : True ? 2 : 3" => 2,
+         "(True ? 1 : False ) ? 2 : 3" => 2, "False ? 1 : False ? 2 : 3" => 3,
          "1 + 1 == 2 ? 1+1 : 1-1" => 2,"1 + 1 == 1 ? 1+1 : 1-1" => 0, ) {
         .key.&test-eval: .value;
     }
